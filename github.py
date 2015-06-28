@@ -44,8 +44,8 @@ def get_token(username, password):
 def save_config(accountname, username, token):
     account = 'mirrortool.account.%s' % accountname
     git(['config', '--global', '%s.type' % account,  'github'])
-    git.config('%s.username' % account, username, globl=True)
-    git.config('%s.token' % account, token, globl=True)
+    git(['config', '%s.username' % account, username], globl=True)
+    git(['config', '%s.token' % account, token], globl=True)
 
 
 def client(accountname):
