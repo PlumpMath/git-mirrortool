@@ -1,10 +1,9 @@
 import requests
-import errors
 import json
 import readline
 import sys
 from getpass import getpass
-from git_mirrortool import git
+from git_mirrortool import git, errors
 
 
 API_ENDPOINT = 'https://api.github.com'
