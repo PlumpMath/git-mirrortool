@@ -21,6 +21,7 @@ class Client(object):
             data=json.dumps({
                 'name': name,
             })
+        )
 
 def get_token(username, password):
     response = requests.post(
@@ -66,4 +67,4 @@ def prompt():
     else:
         enable = False
     if enable:
-        git(['config', '--global', '--add', 'mirrortool.account', accountname)
+        git(['config', '--global', '--add', 'mirrortool.account', accountname])

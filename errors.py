@@ -6,8 +6,8 @@ class RequestFailed(Exception):
         Exception.__init__(self, "HTTP Request Failed")
 
 
-class UnexpectedResponse(Exception:
+class UnexpectedResponse(Exception):
 
     def __init__(self, response, message):
-    self.response = response
-    Exception.__init__(self, message)
+        self.response = response
+        Exception.__init__(self, message)
