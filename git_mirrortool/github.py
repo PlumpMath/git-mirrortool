@@ -3,7 +3,8 @@ import json
 import readline
 import sys
 from getpass import getpass
-from git_mirrortool import git, errors
+from git_mirrortool import errors
+from git_mirrortool.git import git
 
 
 API_ENDPOINT = 'https://api.github.com'
@@ -25,7 +26,7 @@ class Client(object):
 def get_token(username, password):
     response = requests.post(
         API_ENDPOINT + '/authorizations',
-        auth=requests.HTTPBasicAuth(username, password),
+        auth=(username, password),
         data=json.dumps({
             'scopes': ['repo'],
             'note': 'git-mirrortool',
@@ -43,8 +44,8 @@ def get_token(username, password):
 def save_config(accountname, username, token):
     account = 'mirrortool.account.%s' % accountname
     git(['config', '--global', '%s.type' % account,  'github'])
-    git(['config', '%s.username' % account, username], globl=True)
-    git(['config', '%s.token' % account, token], globl=True)
+    git(['config', '--global', '%s.username' % account, username])
+    git(['config', '--global', '%s.token' % account, token])
 
 
 def client(accountname):
