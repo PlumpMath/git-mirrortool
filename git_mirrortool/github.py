@@ -56,7 +56,7 @@ def prompt():
     sys.stdout.write('Github Username: ')
     username = raw_input()
     password = getpass()
-    token = get_token()
+    token = get_token(username, password)
     accountname = 'github/%s' % username
     save_config(accountname, username, token)
     sys.stdout.write('Enable by default? [Y/n]: ')
