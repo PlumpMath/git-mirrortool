@@ -5,6 +5,8 @@ import sys
 from getpass import getpass
 from git_mirrortool import errors
 from git_mirrortool.git import git
+import schema as s
+import re
 
 
 DEFAULT_API_ENDPOINT = 'https://api.github.com'
@@ -34,7 +36,6 @@ class Client(object):
         )
         response.text
 
-
     def get_token(self, password):
         response = requests.post(
             self.endpoint + '/authorizations',
@@ -49,9 +50,18 @@ class Client(object):
             raise errors.RequestFailed(response)
         try:
             result = response.json()
+            s.Schema({
+                'hashed_token': s.And(
+                    basestring,
+                    lambda t: re.match(r'^[0-9a-fA-F]+$', t)
+                ),
+                s.Optional(basestring): object,
+            }).validate(result)
             self._set_token(result['hashed_token'])
         except ValueError:
             raise errors.UnexpectedResponse(response, "Body is not JSON")
+        except s.SchemaError as e:
+            raise errors.UnexpectedResponse(response, str(e))
 
     def save_token(self, accountname):
         account = 'mirrortool.account.%s' % accountname
